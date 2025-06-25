@@ -13,7 +13,7 @@ def video_upload_to(instance, filename):
 
 class Blog(models.Model):
     title = models.CharField(max_length=100, blank=False)  # Increased length for flexibility
-    desc = models.CharField(max_length=255, blank=False)  # Detailed description
+    desc = models.CharField(max_length=2000, blank=False)  # Detailed description
     full_article = models.TextField(blank=False)  # For large content
     datetime = models.DateTimeField(auto_now_add=True)
     image = ResizedImageField(upload_to=upload_to, null=True, blank=True)
@@ -30,6 +30,24 @@ class Blog(models.Model):
             ("Lifestyle", "Lifestyle"),
             ("Education", "Education"),
             ("Business", "Business"),
+            ("Sports", "Sports"),
+            ("Opinions", "Opinions"),
+            ("Startups", "Startups"),
+            ("Technology", "Technology"),
+            ("Crime", "Crime"),
+            ("World", "World"),
+            ("Art", "Art"),
+            ("History", "History"),
+            ("Culture", "Culture"),
+            ("Finance", "Finance"),
+            ("Fashion", "Fashion"),
+            ("Food", "Food"),
+            ("Travel", "Travel"),
+            ("Environment", "Environment"),
+            ("Science", "Science"),
+            ("Politics", "Politics"),
+            ("Entertainment", "Entertainment"),
+            ("Sports", "Sports"),
             ("Other", "Other"),
         ],
         default="Other",

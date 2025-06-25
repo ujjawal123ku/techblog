@@ -8,6 +8,20 @@
     <title>{{ article.title }}</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="twitter:title" content="{{ article.title }}">
+<meta name="twitter:description" content="{{ article.desc|truncatechars:200 }}">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% if article.image %}{{ article.image.url }}{% else %}{% static 'default-placeholder.jpg' %}{% endif %}">
+
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ article.title }}">
+    <meta property="og:description" content="{{ article.desc|truncatechars:200 }}">
+    <meta property="og:image" content="{% if article.image %}{{ article.image.url }}{% else %}{% static 'default-placeholder.jpg' %}{% endif %}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
 </head>
 
 <body>
@@ -30,6 +44,29 @@
                 <p class="card-text mb-3">{{ article.desc }}</p>
                 <div class="article-content">
                     <p class="card-text">{{ article.full_article }}</p>
+                </div>
+            </div>
+
+            <!-- Share Buttons -->
+            <div class="card-footer">
+                <h5>Share this article:</h5>
+                <div class="d-flex">
+                    <!-- Twitter -->
+                    <a class="btn btn-sm btn-primary me-2"
+                       href="https://twitter.com/share?url={{ request.build_absolute_uri|urlencode }}&text={{ article.title|urlencode }}"
+                       target="_blank">
+                        Share on Twitter
+                    </a>
+                    <!-- LinkedIn -->
+                    <a class="btn btn-sm btn-info me-2"
+                       href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri|urlencode }}&title={{ article.title|urlencode }}&summary={{ article.desc|urlencode }}"
+                       target="_blank">
+                        Share on LinkedIn
+                    </a>
+                    <!-- Copy Link -->
+                    <button class="btn btn-sm btn-secondary" onclick="copyLink('{{ request.build_absolute_uri }}')">
+                        Copy URL
+                    </button>
                 </div>
             </div>
         </div>
@@ -58,5 +95,14 @@
         </div>
         {% endif %}
     </div>
+
+    <!-- JS -->
+    <script>
+        function copyLink(link) {
+            navigator.clipboard.writeText(link)
+                .then(() => alert('Link copied to clipboard!'))
+                .catch(err => alert('Error copying link: ', err));
+        }
+    </script>
 </body>
 </html>
